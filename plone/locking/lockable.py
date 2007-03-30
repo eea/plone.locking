@@ -18,7 +18,7 @@ ANNOTATION_KEY = 'plone.locking'
 class TTWLockable(object):
     """An object that is being locked through-the-web
     """
-    
+
     implements(ILockable)
     adapts(ITTWLockable)
 
@@ -34,15 +34,16 @@ class TTWLockable(object):
             lock = LockItem(user, depth=depth)
             token = lock.getLockToken()
             self.context.wl_setLock(token, lock)
-            
-            self.locks[lock_type.__name__] = dict(type = lock_type, token = token)
-            
+
+            self.locks[lock_type.__name__] = dict(type = lock_type,
+                                                  token = token)
+
     def unlock(self, lock_type=STEALABLE_LOCK, stealable_only=True):
-        
         if not self.locked():
             return
-        
-        if not lock_type.stealable or not stealable_only or self.stealable(lock_type):
+
+        if not lock_type.stealable or not stealable_only \
+           or self.stealable(lock_type):
             key = self.locks.get(lock_type.__name__, None)
             if key:
                 self.context.wl_delLock(key['token'])
@@ -54,18 +55,16 @@ class TTWLockable(object):
 
     def locked(self):
         return bool(self.context.wl_isLocked())
-    
+
     def can_safely_unlock(self, lock_type=STEALABLE_LOCK):
-        
         if not lock_type.user_unlockable:
             return False
-        
+
         info = self.lock_info()
-        
         # There is no lock, so return True
         if len(info) == 0:
             return True
-            
+
         userid = getSecurityManager().getUser().getId()
         for l in info:
             # There is another lock of a different type
@@ -75,32 +74,26 @@ class TTWLockable(object):
             if l['creator'] == userid:
                 return True
         return False
-        
+
     def stealable(self, lock_type=STEALABLE_LOCK):
-        
         # If the lock type is not stealable ever, return False
         if not lock_type.stealable:
             return False
-            
         # Can't steal locks of a different type
         for l in self.lock_info():
             if l['type'].__name__ != lock_type.__name__:
                 return False
-        
         # The lock type is stealable, and the object is not marked as 
         # non-stelaable, so return True
         if not INonStealableLock.providedBy(self.context):
             return True
-            
         # Lock type is stealable, object is not stealable, but return True
         # anyway if we can safely unlock this object (e.g. we are the owner)
         return self.can_safely_unlock(lock_type)
-        
+
     def lock_info(self):
         info = []
-        
         rtokens = dict([(v['token'], v['type']) for v in self.locks.values()])
-        
         for lock in self.context.wl_lockValues(1):
             if not lock.isValid():
                 continue # Skip invalid/expired locks
