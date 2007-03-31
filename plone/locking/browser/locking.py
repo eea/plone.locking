@@ -28,9 +28,8 @@ class LockingOperations(BrowserView):
     def safe_unlock(self):
         """Unlock the object if the current user has the lock
         """
-        info = ILockable(self.context)
-        if info.can_safely_unlock():
-            lockable = ILockable(self.context)
+        lockable = ILockable(self.context)
+        if lockable.can_safely_unlock():
             lockable.unlock()
 
 class LockingInformation(BrowserView):
