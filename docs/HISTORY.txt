@@ -1,6 +1,15 @@
 Changelog for plone.locking
 
     (name of developer listed in brackets)
+    
+plone.locking - 1.1.0 (unreleased)
+
+- Added refresh_lock method to the ILockable interface and TTWLockable
+  implementation.
+  [davisagli]
+
+- Changed default lock timeout to 5 minutes.
+  [davisagli]
 
 plone.locking - 1.0.6
 

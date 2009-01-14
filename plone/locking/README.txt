@@ -232,3 +232,14 @@ Lock timeout should be five minutes by default
     >>> lock._timeout
     300L
 
+Refreshing locks
+================
+
+Locks can be refreshed so that their timeout is recalculated relative to the
+current time.
+
+    >>> old_lock_time = lockable.lock_info()[0]['time']
+    >>> lockable.refresh_lock()
+    >>> new_lock_time = lockable.lock_info()[0]['time']
+    >>> new_lock_time > old_lock_time
+    True

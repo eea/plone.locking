@@ -6,7 +6,7 @@ from persistent.dict import PersistentDict
 from zope.annotation.interfaces import IAnnotations
 
 from AccessControl import getSecurityManager
-from webdav.LockItem import LockItem, MAXTIMEOUT
+from webdav.LockItem import LockItem
 
 from plone.locking.interfaces import ILockable
 from plone.locking.interfaces import INonStealableLock
@@ -37,6 +37,15 @@ class TTWLockable(object):
 
             self._locks()[lock_type.__name__] = dict(type = lock_type,
                                                   token = token)
+    
+    def refresh_lock(self, lock_type=STEALABLE_LOCK):
+        if not self.locked():
+            return
+            
+        key = self._locks().get(lock_type.__name__, None)
+        if key:
+            lock = self.context.wl_getLock(key['token'])
+            lock.refresh()
 
     def unlock(self, lock_type=STEALABLE_LOCK, stealable_only=True):
         if not self.locked():
