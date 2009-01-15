@@ -14,7 +14,7 @@ from plone.locking.interfaces import ITTWLockable
 from plone.locking.interfaces import STEALABLE_LOCK
 
 ANNOTATION_KEY = 'plone.locking'
-DEFAULT_TIMEOUT = 5 * 60L
+DEFAULT_TIMEOUT = 10 * 60L
 
 class TTWLockable(object):
     """An object that is being locked through-the-web
