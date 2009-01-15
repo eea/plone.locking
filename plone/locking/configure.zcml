@@ -9,7 +9,7 @@
         name="plone_lock_operations"
         class=".browser.locking.LockingOperations"
         permission="cmf.ModifyPortalContent"
-        allowed_attributes="safe_unlock force_unlock"
+        allowed_attributes="safe_unlock force_unlock refresh_lock"
         />
         
     <browser:page
