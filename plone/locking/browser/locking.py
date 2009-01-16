@@ -35,7 +35,8 @@ class LockingOperations(BrowserView):
         """Reset the lock start time
         """
         lockable = ILockable(self.context)
-        lockable.refresh_lock()
+        if hasattr(lockable, 'refresh_lock'):
+            lockable.refresh_lock()
 
 class LockingInformation(BrowserView):
     """Lock information

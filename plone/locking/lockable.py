@@ -1,5 +1,5 @@
 from zope.interface import implements
-from zope.component import adapts
+from zope.component import adapts, queryAdapter
 
 from persistent.dict import PersistentDict
 
@@ -12,6 +12,7 @@ from plone.locking.interfaces import ILockable
 from plone.locking.interfaces import INonStealableLock
 from plone.locking.interfaces import ITTWLockable
 from plone.locking.interfaces import STEALABLE_LOCK
+from plone.locking.interfaces import ILockSettings
 
 ANNOTATION_KEY = 'plone.locking'
 DEFAULT_TIMEOUT = 10 * 60L
@@ -28,6 +29,10 @@ class TTWLockable(object):
         self.__locks = None
         
     def lock(self, lock_type=STEALABLE_LOCK, children=False):
+        settings = queryAdapter(self.context, ILockSettings)
+        if settings is not None and settings.lock_on_ttw_edit is False:
+            return
+        
         if not self.locked():
             user = getSecurityManager().getUser()
             depth = children and 'infinity' or 0
