@@ -116,7 +116,6 @@ class ILockable(Interface):
 
 class ILockSettings(Interface):
     """A component that looks up configuration settings for lock behavior. 
-    Particularly whether or no locking is enabled on the given context.
     """
     lock_on_ttw_edit = Attribute('A property that reveals whether '
                                  'through-the-web locking is enabled.')
