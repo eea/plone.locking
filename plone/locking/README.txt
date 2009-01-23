@@ -225,7 +225,7 @@ When we are anonymous but do have edit rights we can also do a lock.
 Locking timeouts
 ================
 
-Lock timeout should be five minutes by default
+Lock timeout should be ten minutes by default
 
     >>> token = info[0]['token']
     >>> lock = lockable.context.wl_getLock(token)
