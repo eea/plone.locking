@@ -63,10 +63,6 @@ class ILockable(Interface):
         objects that are stealable(). Thus, non-stealable locks will need
         to pass stealable_only=False to actually get unlocked.
         """
-
-    def refresh_lock(lock_type=STEALABLE_LOCK):
-        """Refresh the lock so it expires later.
-        """
         
     def clear_locks():
         """Clear all locks on the object
@@ -110,6 +106,14 @@ class ILockable(Interface):
          - time    : the time at which the lock was acquired
          - token   : the underlying lock token
          - type    : the type of lock
+        """
+
+class IRefreshableLockable(ILockable):
+    """ A component that is lockable and whose locks can be refreshed.
+    """
+    
+    def refresh_lock(lock_type=STEALABLE_LOCK):
+        """Refresh the lock so it expires later.
         """
 
 # Configuration

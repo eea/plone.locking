@@ -8,7 +8,7 @@ from zope.annotation.interfaces import IAnnotations
 from AccessControl import getSecurityManager
 from webdav.LockItem import LockItem
 
-from plone.locking.interfaces import ILockable
+from plone.locking.interfaces import IRefreshableLockable
 from plone.locking.interfaces import INonStealableLock
 from plone.locking.interfaces import ITTWLockable
 from plone.locking.interfaces import STEALABLE_LOCK
@@ -21,7 +21,7 @@ class TTWLockable(object):
     """An object that is being locked through-the-web
     """
 
-    implements(ILockable)
+    implements(IRefreshableLockable)
     adapts(ITTWLockable)
 
     def __init__(self, context):
