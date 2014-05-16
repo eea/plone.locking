@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.0.5.dev0'
+version = '2.0.5.eea'
 
 setup(name='plone.locking',
       version=version,

@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.5 (unreleased)
-------------------
+2.0.5.eea (2014-05-16)
+----------------------
 
 - Adding "create_lock" to "plone_lock_operations"
   [hman]
